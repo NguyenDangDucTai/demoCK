@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping</title>
+    <style>
+        table{
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        div.inline a.active {
+            background-color: #b6d4fe;
+            border: 1px solid darkred;
+        }
+        .inline {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .inline a.active {
+            background-color: #bfe2e9;
+            border: 1px solid darkred;
+        }
+
+        .inline a {
+            padding: 5px 10px;
+            margin: 0 5px;
+            border: 1px solid black;
+            text-decoration: none;
+            color: #000;
+            border-radius: 3px;
+        }
+        img{
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+
+<table>
+    <thead>
+
+    </thead>
+    <tbody>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <form class="ms-auto d-flex" th:action="@{/cart/view-cart}">
+                <button class="btn btn-outline-dark" type="submit">
+                    <i class="bi-cart-fill me-1"></i>
+                    My Cart
+                    <span class="badge bg-dark text-white ms-1 rounded-pill"
+                          th:text="${session.sizecartItemList!=null?session.sizecartItemList:0}"></span>
+                </button>
+            </form>
+        </div>
+    </nav>
+
+        <tr th:each="product : ${productPage}">
+            <td>
+                <img th:src="${product.productImageList[0].path}"/>
+            </td>
+            <td th:text="${product.getName()}"></td>
+            <td th:text="${product.getDescription()}"></td>
+            <td th:text="${product.getManufacturer()}"></td>
+            <td th:text="${product.getUnit()}"></td>
+            <td>
+                <a class="btn btn-outline-dark mt-auto"
+                   th:href="@{shopping/add2cart/{id}(id=${product.product_id})}">
+                    Add to cart
+                </a>
+            </td>
+
+        </tr>
+    </tbody>
+</table>
+
+<div class="inline" th:if="${productPage.totalPages > 0}">
+    <div  th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/shopping(size=${productPage.size}, page=${pageNumber})}" th:text="${pageNumber}"
+           th:class="${pageNumber==productPage.number + 1} ? active"></a>
+    </div>
+</div>
+
+
+</body>
+</html>

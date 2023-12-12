@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+    <style>
+        table{
+            border-collapse: collapse;
+            width: 40%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <thead>
+
+    </thead>
+    <tbody>
+        <tr th:each="product : ${session.cartItemList}">
+            <td th:text="${product.getProduct().getName()}"></td>
+            <td>
+                <div class="quantity d-flex align-items-center">
+                    <a th:href="@{/cart/minus/{id}(id=${product.getProduct().getProduct_id()})}"
+                       class="btn btn-sm btn-primary me-2">-</a>
+                    <input type="text" th:value="${product.getAmount()}"
+                           class="form-control quantity-input me-2">
+                    <a th:href="@{/cart/plus/{id}(id=${product.getProduct().getProduct_id()})}"
+                       class="btn btn-sm btn-primary">+</a>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Toltal:<a th:text="${session.total}"></a>
+</h2>
+</body>
+</html>
